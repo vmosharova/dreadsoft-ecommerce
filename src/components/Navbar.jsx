@@ -5,6 +5,7 @@ import { ethers } from 'ethers'
 import { useState, useEffect } from 'react'
 import WalletPopup from './WalletPopup'
 import { NETWORK_NAME_MAP } from './data/networkNames'
+import toast from 'react-hot-toast'
 
 const Navbar = () => {
     const state = useSelector(state => state.handleCart);
@@ -13,6 +14,24 @@ const Navbar = () => {
     const [showWalletPopup, setShowWalletPopup] = useState(false);
     const [network, setNetwork] = useState(null);
     const [friendlyNetworkName, setFriendlyNetworkName] = useState('');
+    const [pendingTx, setPendingTx] = useState(false);
+    const [txSuccess, setTxSuccess] = useState(false);
+    const [confirmInWallet, setConfirmInWallet] = useState(false);
+
+    useEffect(() => {
+        if (pendingTx) {
+            toast.loading('Transaction pending...', { id: 'tx-pending' });
+        }
+        if (confirmInWallet) {
+            toast.loading('Confirm in wallet', { id: 'tx-confirm' });
+        }
+        if (txSuccess) {
+            toast.dismiss('tx-pending');
+            toast.dismiss('tx-confirm');
+            toast.success('Minted!');
+            setTimeout(() => setTxSuccess(false), 3000);
+        }
+    }, [pendingTx, confirmInWallet, txSuccess]);
 
     useEffect(() => {
         if (window.ethereum) {
@@ -123,9 +142,9 @@ const Navbar = () => {
                                 borderWidth: '1px',
                                 backgroundColor: 'orange',
                             }}
-                            disabled={isConnecting}
+                            disabled={isConnecting || pendingTx}
                         >
-                            {isConnecting ? 'Connecting...' : (account ? `Details (${account.slice(0, 5)}...)` : 'Connect Wallet')}
+                            {isConnecting ? 'Connecting...' : pendingTx ? 'Transaction Pending...' : (account ? `Details (${account.slice(0, 5)}...)` : 'Connect Wallet')}
                         </button>
                     </div>
                 </div>
@@ -136,7 +155,13 @@ const Navbar = () => {
                         network={network}
                         friendlyNetworkName={friendlyNetworkName}
                         onClose={onCloseWalletPopup} 
-                        disconnectWallet={disconnectCurrentWallet} 
+                        disconnectWallet={disconnectCurrentWallet}
+                        pendingTx={pendingTx}
+                        txSuccess={txSuccess}
+                        confirmInWallet={confirmInWallet}
+                        setPendingTx={setPendingTx}
+                        setTxSuccess={setTxSuccess}
+                        setConfirmInWallet={setConfirmInWallet}
                     />
                 )}
             </div>
