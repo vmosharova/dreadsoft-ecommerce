@@ -1,9 +1,18 @@
+# Techical Assessment - Ecommerce Project with React 18
+
+This is a technical assessment - a demo project of an ecommerce store built with:
+- React 18
+- Redux
+- [Fake Store API](https://fakestoreapi.com/)
+
+![Screenshot](ecommerce_screenshot.png)
+
 ## Run Locally
 
 Clone the project
 
 ```bash
-  git clone https://dredsoft-labs-admin@bitbucket.org/dredsoft-labs/ecommerce.git
+  git clone git@github.com:vmosharova/dreadsoft-ecommerce.git
 ```
 
 Go to the project directory
@@ -19,7 +28,7 @@ Install dependencies
 
   or 
 
-  npm install react-material-ui-carousel --save --legacy-peer-deps
+  npm install --legacy-peer-deps
 ```
 
 Start the server
