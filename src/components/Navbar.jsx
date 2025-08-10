@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import { ethers } from 'ethers'
 import { useState, useEffect } from 'react'
 import WalletPopup from './WalletPopup'
+import { NETWORK_NAME_MAP } from './data/networkNames'
 
 const Navbar = () => {
     const state = useSelector(state => state.handleCart);
@@ -11,6 +12,7 @@ const Navbar = () => {
     const [account, setAccount] = useState('');
     const [showWalletPopup, setShowWalletPopup] = useState(false);
     const [network, setNetwork] = useState(null);
+    const [friendlyNetworkName, setFriendlyNetworkName] = useState('');
 
     useEffect(() => {
         if (window.ethereum) {
@@ -62,6 +64,7 @@ const Navbar = () => {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const network = await provider.getNetwork(); 
             setNetwork(network); 
+            setFriendlyNetworkName(NETWORK_NAME_MAP[network.name] || network.name);
         } catch (error) {
             console.error(error);
             setIsConnecting(false);
@@ -131,6 +134,7 @@ const Navbar = () => {
                     <WalletPopup 
                         account={account}
                         network={network}
+                        friendlyNetworkName={friendlyNetworkName}
                         onClose={onCloseWalletPopup} 
                         disconnectWallet={disconnectCurrentWallet} 
                     />

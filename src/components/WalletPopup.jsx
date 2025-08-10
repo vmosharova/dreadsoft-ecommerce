@@ -1,4 +1,4 @@
-const WalletPopup = ({ account, network, onClose, disconnectWallet }) => {
+const WalletPopup = ({ account, network, friendlyNetworkName, onClose, disconnectWallet }) => {
     return (
         <div className="modal fade show d-block" tabIndex="-1" style={{backgroundColor: 'rgba(0,0,0,0.5)'}}>
             <div className="modal-dialog modal-dialog-centered">
@@ -14,7 +14,7 @@ const WalletPopup = ({ account, network, onClose, disconnectWallet }) => {
                         </div>
                         <div className="mb-3">
                             <label className="form-label fw-bold">Network:</label>
-                            <p className="small">{network ? network.name : 'Unknown Network'}</p>
+                            <p className="small">{network ? friendlyNetworkName : 'Unknown Network'}</p>
                         </div>
                     </div>
                     <div className="modal-footer">
