@@ -7,17 +7,30 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import ProductCard from "../pages/ProductCard";
 
 const Products = () => {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState(data);
   const [loading, setLoading] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showProductCard, setShowProductCard] = useState(false);
   let componentMounted = true;
 
   const dispatch = useDispatch();
 
   const addProduct = (product) => {
     dispatch(addCart(product));
+  };
+
+  const handleProductClick = (clickedProduct) => {
+    setSelectedProduct(clickedProduct);
+    setShowProductCard(true);
+  };
+
+  const closeProductCard = () => {
+    setShowProductCard(false);
+    setSelectedProduct(null);
   };
 
   useEffect(() => {
@@ -114,7 +127,12 @@ const Products = () => {
               key={product.id}
               className="col-md-4 col-sm-6 col-xs-8 col-12 mb-4"
             >
-              <div className="card text-center h-100" key={product.id}>
+              <div 
+                className="card text-center h-100" 
+                key={product.id}
+                onClick={() => handleProductClick(product)}
+                style={{ cursor: 'pointer' }}
+              >
                 <img
                   className="card-img-top p-3"
                   src={product.image}
@@ -143,7 +161,8 @@ const Products = () => {
                   </Link>
                   <button
                     className="btn btn-dark m-1"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
                       toast.success("Added to cart");
                       addProduct(product);
                     }}
@@ -171,6 +190,13 @@ const Products = () => {
           {loading ? <Loading /> : <ShowProducts />}
         </div>
       </div>
+      {showProductCard && selectedProduct && (
+        <ProductCard 
+          product={selectedProduct} 
+          onClose={closeProductCard}
+          addProduct={addProduct}
+        />
+      )}
     </>
   );
 };
