@@ -72,7 +72,7 @@ const Navbar = () => {
             const ethereum = await detectEthereumProvider();
 
             if (!ethereum) {
-                alert('Please install MetaMask!');
+                alert('Please install MetaMask or reload your MetaMask extention in the browser');
                 return;
             }
 

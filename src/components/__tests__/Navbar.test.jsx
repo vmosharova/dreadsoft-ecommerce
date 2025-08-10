@@ -105,7 +105,7 @@ describe('Navbar Wallet Integration', () => {
     fireEvent.click(connectButton);
     
     await waitFor(() => {
-      expect(window.alert).toHaveBeenCalledWith('Please install MetaMask!');
+      expect(window.alert).toHaveBeenCalledWith('Please install MetaMask or reload your MetaMask extention in the browser');
     }, { timeout: 5000 });
   });
 
