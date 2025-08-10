@@ -1,11 +1,35 @@
 # Techical Assessment - Ecommerce Project with React 18
 
-This is a technical assessment - a demo project of an ecommerce store built with:
+This is a technical assessment - a demo project of an ecommerce store.
+
+## UI:
 - React 18
 - Redux
-- [Fake Store API](https://fakestoreapi.com/)
+- Data from [Fake Store API](https://fakestoreapi.com/)
+
+## MetaMask wallet and tx handling with Ethers.js:
+  - Connect wallet with ethers.js
+  - Show account
+  - Show network
+  - Account / network change depending on account / network shown in MetaMask
+  - Event listeners: `chainChanged` and `accountsChanged` events automatically detect wallet network / account switches
+  - Real-time updates: Network state syncs immediately when user changes chains in wallet
+  - Friendly names: Chain name mapping for better UX (e.g. `Polygon Mainnet` instead of `Matic`, `Ethereum Mainnet` instead of `homestead`)
+  - UI demos for startung a transaction ( + pending), prompt confirmation (confirm transaction in the wallet) and a successful transaction
+ - Disconnect wallet (clear the `account` state)
+
+## Screenshots:
+Product Card: 
 
 ![Screenshot](ecommerce_screenshot.png)
+
+Navbar With Wallet Handling:
+
+![Screenshot](ecommerce_navbar.png)
+
+Wallet Connection:
+
+![Screenshot](ecommerce_wallet_screenshot.png)
 
 ## Run Locally
 
@@ -21,13 +45,9 @@ Go to the project directory
   cd ecommerce
 ```
 
-Install dependencies
+Install dependencies **(use --legacy-peer-deps flag)**
 
 ```bash
-  npm install
-
-  or 
-
   npm install --legacy-peer-deps
 ```
 
