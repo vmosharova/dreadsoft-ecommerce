@@ -138,6 +138,7 @@ const Products = () => {
                   src={product.image}
                   alt="Card"
                   height={300}
+                  style={{objectFit: 'contain'}}
                 />
                 <div className="card-body">
                   <h5 className="card-title">
