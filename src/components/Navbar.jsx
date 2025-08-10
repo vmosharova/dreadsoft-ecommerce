@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { ethers } from 'ethers'
 import { useState, useEffect } from 'react'
 import WalletPopup from './WalletPopup'
-import { NETWORK_NAME_MAP } from './data/networkNames'
+import { NETWORK_NAME_MAP } from './data/networkNames.jsx'
 import toast from 'react-hot-toast'
 
 const Navbar = () => {
@@ -40,6 +40,7 @@ const Navbar = () => {
                     const provider = new ethers.providers.Web3Provider(window.ethereum);
                     const network = await provider.getNetwork();
                     setNetwork(network);
+                    setFriendlyNetworkName(NETWORK_NAME_MAP[network.chainId] || network.name);
                 } catch (error) {
                     console.error('Error updating network:', error);
                 }
@@ -68,7 +69,9 @@ const Navbar = () => {
     async function connectWallet() {
         if (isConnecting) return; 
         try {
-            if (!window.ethereum) {
+            const ethereum = await detectEthereumProvider();
+
+            if (!ethereum) {
                 alert('Please install MetaMask!');
                 return;
             }
@@ -83,7 +86,7 @@ const Navbar = () => {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const network = await provider.getNetwork(); 
             setNetwork(network); 
-            setFriendlyNetworkName(NETWORK_NAME_MAP[network.name] || network.name);
+            setFriendlyNetworkName(NETWORK_NAME_MAP[network.chainId] || network.name);
         } catch (error) {
             console.error(error);
             setIsConnecting(false);
@@ -106,6 +109,21 @@ const Navbar = () => {
         setAccount(null);
         setShowWalletPopup(false);
     }
+
+    function detectEthereumProvider() {
+        return new Promise((resolve) => {
+            if (window.ethereum) {
+            resolve(window.ethereum);
+            return;
+            }
+            window.addEventListener('ethereum#initialized', () => {
+            resolve(window.ethereum);
+            }, { once: true });
+
+            setTimeout(() => resolve(window.ethereum), 3000);
+        });
+    }
+
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light py-3 sticky-top">
