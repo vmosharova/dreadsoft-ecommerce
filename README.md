@@ -1,6 +1,6 @@
 # Techical Assessment - Ecommerce Project with React 18
 
-This is a technical assessment - a demo project of an ecommerce store.
+This is a technical assessment - a demo project of an ecommerce store with a wallet integration.
 
 ## UI:
 - React 18
